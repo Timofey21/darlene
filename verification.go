@@ -11,22 +11,18 @@ import (
 	"strings"
 )
 
-func verifyChromedp(url string) {
+var xssFound []string
 
-	//opts := append(chromedp.DefaultExecAllocatorOptions[:],
-	//	chromedp.ProxyServer("http://127.0.0.1:8080"),
-	//)
-	//allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
-	//defer cancel()
-	//ctx, cancel := chromedp.NewContext(allocCtx)
-	//defer cancel()
+func verifyChromedp(url string) {
 
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
 	chromedp.ListenTarget(ctx, func(ev interface{}) {
 		if _, ok := ev.(*page.EventJavascriptDialogOpening); ok {
-			fmt.Println("Found XSS [+]	" + url)
+			//fmt.Println("Found XSS [+]	" + url)
+			xssFound = append(xssFound, url)
+
 			t := page.HandleJavaScriptDialog(true)
 			go func() {
 				if err := chromedp.Run(ctx, t); err != nil {
@@ -44,6 +40,7 @@ func verifyChromedp(url string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }
 
 func VerifyReflection(body, payload string) bool {

@@ -5,14 +5,17 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 )
 
-func fitFunction(attackUrl string, injectedBodyString string, client *http.Client, xss string) (fitFunc float64) {
+func fitFunction(attackUrl string, injectedBodyString string, xss string) float64 {
 
+	var fitFunc float64
 	var sigma float64 = 0
 	var normalBodyString string
+	var filtVariable float64
 
-	resp, err := client.Get(attackUrl)
+	resp, err := request(attackUrl)
 	if err != nil {
 		log.Println(err)
 	}
@@ -25,9 +28,6 @@ func fitFunction(attackUrl string, injectedBodyString string, client *http.Clien
 		normalBodyString = string(bodyBytes)
 	}
 
-
-	//fmt.Println(normalBodyString)
-
 	levDist := float64(levenshtein.ComputeDistance(injectedBodyString, normalBodyString))
 	lenNormalBodyString := float64(len(normalBodyString))
 	lenInjectedBodyString := float64(len(injectedBodyString))
@@ -37,28 +37,29 @@ func fitFunction(attackUrl string, injectedBodyString string, client *http.Clien
 	payloadLen := lenInjectedBodyString - lenNormalBodyString
 
 	filteredChars := xssLen - payloadLen
+
+	filtVariable = (xssLen - filteredChars) / xssLen
 	pageDifference := levDist / lenNormalBodyString
 
-	//fmt.Println("-------------")
-	//fmt.Println("Filtered chars: ", filteredChars)
+	//fmt.Println("Xss len: ", xssLen)
+	//fmt.Println("payloadLen: ", payloadLen)
+	//fmt.Println("Filtered variable: ", filtVariable)
 	//fmt.Println("Page difference: ", pageDifference)
 
 	vr := VerifyReflection(injectedBodyString, xss)
 	vd := VerifyDOM(injectedBodyString)
 
 	if vr && vd {
-
-		sigma = 1
-		//verifyChromedp(attackUrl + url.QueryEscape(xss))
-		//fmt.Println("XSS Found [+]		" + xssVector)
+		sigma = 100
+		verifyChromedp(attackUrl + url.QueryEscape(xss))
 	}
 
-	fitFunc = sigma + 4 * filteredChars + 2 * pageDifference
-
+	fitFunc = sigma + 10*filtVariable + 5*pageDifference
 
 	//fmt.Println("Sigma: ", sigma)
 	//fmt.Println("Fit Function: ", fitFunc)
+	//fmt.Println("-------------")
 
-	return
+	return fitFunc
 
 }

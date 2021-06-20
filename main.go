@@ -5,42 +5,40 @@ import (
 	"encoding/csv"
 	"flag"
 	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"net/url"
 	"os"
 )
 
-func sum(array []float64) (result float64) {
+type xssAttack struct {
+	id          int
+	attack      []string
+	fitFunction float64
+}
+
+func newXssAttack(id int, attack []string, fitFunction float64) xssAttack {
+	return xssAttack{
+		id:          id,
+		attack:      attack,
+		fitFunction: fitFunction,
+	}
+}
+
+func sum(xssAttacks []xssAttack) (result float64) {
 	result = 0
-	for _, v := range array {
-		result += v
+	for _, v := range xssAttacks {
+		result += v.fitFunction
 	}
 	return
 }
 
+var prox *bool
+
 func main() {
 
 	attackUrl := flag.String("url", "", "url")
+	prox = flag.Bool("proxy", false, "proxy")
 	flag.Parse()
 
-	var fitFunc []float64
-
-	var proxy = "http://127.0.0.1:8080"
-	proxyURL, err := url.Parse(proxy)
-
-	if err != nil {
-		log.Println(err)
-	}
-
-	transport := &http.Transport{
-		Proxy: http.ProxyURL(proxyURL),
-	}
-
-	client := &http.Client{
-		Transport: transport,
-	}
+	var xssAttacks []xssAttack
 
 	csvFile, err := os.Open("xssAttacks.csv")
 
@@ -55,76 +53,17 @@ func main() {
 	}(csvFile)
 
 	reader := csv.NewReader(bufio.NewReader(csvFile))
-	//reader.Comma = ';'
 	reader.LazyQuotes = true
 
-	xssAttacks, err := reader.ReadAll()
+	buffer, err := reader.ReadAll()
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	for i := 0; i < 3;i++ {
-		fmt.Println(xssAttacks[i][0] + xssAttacks[i][1] + xssAttacks[i][2] + xssAttacks[i][3] + xssAttacks[i][4] + xssAttacks[i][5])
+	for i, v := range buffer {
+		xssAttacks = append(xssAttacks, newXssAttack(i, v, 0))
 	}
 
-
-	fmt.Println(xssAttacks)
-
-	f, err := os.Open("NewPayloads.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-
-	count := 0
-	sc := bufio.NewScanner(f)
-	for sc.Scan() {
-		xss := sc.Text()
-		xssVector := *attackUrl + url.QueryEscape(xss)
-
-		count++
-
-		//start := time.Now()
-		//go verification(xssVector)
-		//duration := time.Since(start)
-		//fmt.Println(duration)
-
-		resp, err := client.Get(xssVector)
-		if err != nil {
-			log.Println(err)
-		}
-
-
-
-
-		if resp.StatusCode == http.StatusOK {
-			bodyBytes, err := ioutil.ReadAll(resp.Body)
-			if err != nil {
-				log.Fatal(err)
-			}
-			bodyString := string(bodyBytes)
-
-			fitFunc = append(fitFunc, fitFunction(*attackUrl, bodyString, client, xss))
-
-			//vr := VerifyReflection(bodyString, xss)
-			//vd := VerifyDOM(bodyString)
-			//
-			//if vr && vd {
-			//	verifyChromedp(xssVector)
-			//	//fmt.Println("XSS Found [+]		" + xssVector)
-			//}
-		}
-
-		err = resp.Body.Close()
-		if err != nil {
-			log.Println(err)
-		}
-
-	}
-
-	avgFitFunction := sum(fitFunc) / float64(len(fitFunc))
-	fmt.Println("-------------")
-	fmt.Println("-------------")
-	fmt.Println("Average fit function: ", avgFitFunction)
+	GA(*attackUrl, xssAttacks)
 
 }
