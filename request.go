@@ -19,6 +19,10 @@ func request(urlStr string) (resp *http.Response, err error) {
 		transport = &http.Transport{
 			Proxy: http.ProxyURL(proxyURL),
 		}
+	} else {
+		transport = &http.Transport{
+
+		}
 	}
 
 	client := &http.Client{
