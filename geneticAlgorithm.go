@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"github.com/mpvl/unique"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -41,6 +39,16 @@ func mutation(xssAttacks []xssAttack) []xssAttack {
 
 	return xssAttacks
 }
+
+func sum(xssAttacks []xssAttack) (result float64) {
+	result = 0
+	for _, v := range xssAttacks {
+		result += v.fitFunction
+	}
+	return
+}
+
+
 
 func GA(attackUrl string, xssAttacks []xssAttack) {
 
@@ -85,12 +93,9 @@ func GA(attackUrl string, xssAttacks []xssAttack) {
 
 		xssAttacks = newPopulation
 
-		avgFitFunction := sum(xssAttacks) / float64(len(xssAttacks))
-		fmt.Println("Epoch: ", i, "FitFunction: ", avgFitFunction)
+		//avgFitFunction := sum(xssAttacks) / float64(len(xssAttacks))
+		//fmt.Println("Epoch: ", i, "FitFunction: ", avgFitFunction)
 	}
 
-	unique.Strings(&xssFound)
-	for _, v := range xssFound {
-		fmt.Println("Working XSS [+]: ", v)
-	}
+	printResult()
 }

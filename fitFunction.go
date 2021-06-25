@@ -50,11 +50,11 @@ func fitFunction(attackUrl string, injectedBodyString string, xss string) float6
 	vd := VerifyDOM(injectedBodyString)
 
 	if vr && vd {
-		sigma = 100
+		sigma = 10
 		verifyChromedp(attackUrl + url.QueryEscape(xss))
 	}
 
-	fitFunc = sigma + 10*filtVariable + 5*pageDifference
+	fitFunc = sigma + 0.8*filtVariable + 0.2*pageDifference
 
 	//fmt.Println("Sigma: ", sigma)
 	//fmt.Println("Fit Function: ", fitFunc)

@@ -11,7 +11,6 @@ import (
 	"strings"
 )
 
-var xssFound []string
 
 func verifyChromedp(url string) {
 
