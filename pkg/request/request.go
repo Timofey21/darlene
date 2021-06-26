@@ -1,16 +1,17 @@
-package main
+package request
 
 import (
+	"XSSfuzz/pkg/read"
 	"log"
 	"net/http"
 	"net/url"
 )
 
-func request(urlStr string) (resp *http.Response, err error) {
+func Request(urlStr string) (resp *http.Response, err error) {
 
 	var transport *http.Transport
 
-	if *prox {
+	if *read.Prox {
 		proxy := "http://127.0.0.1:8080"
 		proxyURL, err := url.Parse(proxy)
 		if err != nil {

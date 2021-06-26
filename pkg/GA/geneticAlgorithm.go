@@ -1,6 +1,9 @@
-package main
+package GA
 
 import (
+	"XSSfuzz/pkg/print"
+	"XSSfuzz/pkg/read"
+	"XSSfuzz/pkg/request"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -12,56 +15,56 @@ import (
 const randomCircles = 20
 const epoch = 100
 
-func crossover(xssAttacks []xssAttack) []xssAttack {
+func crossover(xssAttacks []read.XssAttack) []read.XssAttack {
 
 	for i := 0; i < randomCircles; i++ {
 		a1 := rand.Intn(len(xssAttacks))
 		a2 := rand.Intn(len(xssAttacks))
 		module := rand.Intn(6)
 
-		buff := xssAttacks[a1].attack[module]
-		xssAttacks[a1].attack[module] = xssAttacks[a2].attack[module]
-		xssAttacks[a2].attack[module] = buff
+		buff := xssAttacks[a1].Attack[module]
+		xssAttacks[a1].Attack[module] = xssAttacks[a2].Attack[module]
+		xssAttacks[a2].Attack[module] = buff
 	}
 
 	return xssAttacks
 }
 
-func mutation(xssAttacks []xssAttack) []xssAttack {
+func mutation(xssAttacks []read.XssAttack) []read.XssAttack {
 	for i := 0; i < randomCircles; i++ {
 
 		idx := rand.Intn(len(xssAttacks))
 		module := rand.Intn(6)
 
-		xssAttacks[idx].attack[module] = xssAttacks[idx].attack[module] + ""
+		xssAttacks[idx].Attack[module] = xssAttacks[idx].Attack[module] + ""
 
 	}
 
 	return xssAttacks
 }
 
-func sum(xssAttacks []xssAttack) (result float64) {
+func sum(xssAttacks []read.XssAttack) (result float64) {
 	result = 0
 	for _, v := range xssAttacks {
-		result += v.fitFunction
+		result += v.FitFunction
 	}
 	return
 }
 
 
 
-func GA(attackUrl string, xssAttacks []xssAttack) {
+func GA(attackUrl string, xssAttacks []read.XssAttack) {
 
 	for i := 0; i < epoch; i++ {
 
 		for j := 0; j < len(xssAttacks); j++ {
 
-			xss := xssAttacks[j].attack[0] + xssAttacks[j].attack[1] + xssAttacks[j].attack[2] +
-				xssAttacks[j].attack[3] + xssAttacks[j].attack[4] + xssAttacks[j].attack[5]
+			xss := xssAttacks[j].Attack[0] + xssAttacks[j].Attack[1] + xssAttacks[j].Attack[2] +
+				xssAttacks[j].Attack[3] + xssAttacks[j].Attack[4] + xssAttacks[j].Attack[5]
 
 			xssVector := attackUrl + url.QueryEscape(xss)
 
-			resp, err := request(xssVector)
+			resp, err := request.Request(xssVector)
 			if err != nil {
 				log.Println(err)
 			}
@@ -73,7 +76,7 @@ func GA(attackUrl string, xssAttacks []xssAttack) {
 				}
 				bodyString := string(bodyBytes)
 
-				xssAttacks[j].fitFunction = fitFunction(attackUrl, bodyString, xss)
+				xssAttacks[j].FitFunction = fitFunction(attackUrl, bodyString, xss)
 			}
 
 			err = resp.Body.Close()
@@ -83,7 +86,7 @@ func GA(attackUrl string, xssAttacks []xssAttack) {
 		}
 
 		sort.SliceStable(xssAttacks, func(i, j int) bool {
-			return xssAttacks[i].fitFunction > xssAttacks[j].fitFunction
+			return xssAttacks[i].FitFunction > xssAttacks[j].FitFunction
 		})
 
 		newPopulation := xssAttacks // selection
@@ -97,5 +100,5 @@ func GA(attackUrl string, xssAttacks []xssAttack) {
 		//fmt.Println("Epoch: ", i, "FitFunction: ", avgFitFunction)
 	}
 
-	printResult()
+	print.PrintResult()
 }

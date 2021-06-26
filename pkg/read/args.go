@@ -1,12 +1,12 @@
-package main
+package read
 
 import "flag"
 
-var prox *bool
+var Prox *bool
 
-func readArgs() string {
+func Args() string {
 	attackUrl := flag.String("url", "", "url")
-	prox = flag.Bool("proxy", false, "proxy")
+	Prox = flag.Bool("proxy", false, "proxy")
 	flag.Parse()
 
 	return *attackUrl

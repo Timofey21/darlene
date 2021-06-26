@@ -1,6 +1,8 @@
-package main
+package GA
 
 import (
+	"XSSfuzz/pkg/request"
+	"XSSfuzz/pkg/verification"
 	"github.com/agnivade/levenshtein"
 	"io/ioutil"
 	"log"
@@ -15,7 +17,7 @@ func fitFunction(attackUrl string, injectedBodyString string, xss string) float6
 	var normalBodyString string
 	var filtVariable float64
 
-	resp, err := request(attackUrl)
+	resp, err := request.Request(attackUrl)
 	if err != nil {
 		log.Println(err)
 	}
@@ -46,12 +48,12 @@ func fitFunction(attackUrl string, injectedBodyString string, xss string) float6
 	//fmt.Println("Filtered variable: ", filtVariable)
 	//fmt.Println("Page difference: ", pageDifference)
 
-	vr := VerifyReflection(injectedBodyString, xss)
-	vd := VerifyDOM(injectedBodyString)
+	vr := verification.VerifyReflection(injectedBodyString, xss)
+	vd := verification.VerifyDOM(injectedBodyString)
 
 	if vr && vd {
 		sigma = 10
-		verifyChromedp(attackUrl + url.QueryEscape(xss))
+		verification.VerifyChromedp(attackUrl + url.QueryEscape(xss))
 	}
 
 	fitFunc = sigma + 0.8*filtVariable + 0.2*pageDifference

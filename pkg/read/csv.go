@@ -1,4 +1,4 @@
-package main
+package read
 
 import (
 	"bufio"
@@ -7,22 +7,22 @@ import (
 	"os"
 )
 
-type xssAttack struct {
+type XssAttack struct {
 	id          int
-	attack      []string
-	fitFunction float64
+	Attack      []string
+	FitFunction float64
 }
 
-func newXssAttack(id int, attack []string, fitFunction float64) xssAttack {
-	return xssAttack{
+func newXssAttack(id int, attack []string, fitFunction float64) XssAttack {
+	return XssAttack{
 		id:          id,
-		attack:      attack,
-		fitFunction: fitFunction,
+		Attack:      attack,
+		FitFunction: fitFunction,
 	}
 }
 
 
-func readCSV () (xssAttacks []xssAttack) {
+func CSV() (xssAttacks []XssAttack) {
 	csvFile, err := os.Open("xssAttacks.csv")
 
 	if err != nil {

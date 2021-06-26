@@ -1,6 +1,7 @@
-package main
+package verification
 
 import (
+	"XSSfuzz/pkg/print"
 	"context"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
@@ -12,14 +13,14 @@ import (
 )
 
 
-func verifyChromedp(url string) {
+func VerifyChromedp(url string) {
 
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
 	chromedp.ListenTarget(ctx, func(ev interface{}) {
 		if _, ok := ev.(*page.EventJavascriptDialogOpening); ok {
-			xssFound = append(xssFound, url)
+			print.XssFound = append(print.XssFound, url)
 
 			t := page.HandleJavaScriptDialog(true)
 			go func() {
