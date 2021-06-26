@@ -19,7 +19,6 @@ func verifyChromedp(url string) {
 
 	chromedp.ListenTarget(ctx, func(ev interface{}) {
 		if _, ok := ev.(*page.EventJavascriptDialogOpening); ok {
-			//fmt.Println("Found XSS [+]	" + url)
 			xssFound = append(xssFound, url)
 
 			t := page.HandleJavaScriptDialog(true)

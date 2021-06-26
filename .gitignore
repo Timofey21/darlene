@@ -1,3 +1,6 @@
 **/.DS_Store
 **/.idea
 XSSfuzz
+NewPayloads.txt
+xssPayloads.txt
+xssAttacks.json
