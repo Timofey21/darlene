@@ -1,4 +1,4 @@
-package GA
+package geneticAlgorithm
 
 import (
 	"XSSfuzz/pkg/request"
