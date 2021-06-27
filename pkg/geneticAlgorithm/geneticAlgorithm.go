@@ -1,9 +1,9 @@
 package geneticAlgorithm
 
 import (
-	"github.com/Timofey21/GoXSSfuzz/pkg/print"
-	"github.com/Timofey21/GoXSSfuzz/pkg/read"
-	"github.com/Timofey21/GoXSSfuzz/pkg/request"
+	"github.com/Timofey21/darlene/pkg/print"
+	"github.com/Timofey21/darlene/pkg/read"
+	"github.com/Timofey21/darlene/pkg/request"
 	"io/ioutil"
 	"log"
 	"math/rand"

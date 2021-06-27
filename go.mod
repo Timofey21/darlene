@@ -1,4 +1,4 @@
-module github.com/Timofey21/GoXSSfuzz
+module github.com/Timofey21/darlene
 
 go 1.16
 
