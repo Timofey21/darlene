@@ -1,7 +1,7 @@
 package request
 
 import (
-	"XSSfuzz/pkg/read"
+	"github.com/Timofey21/GoXSSfuzz/pkg/read"
 	"log"
 	"net/http"
 	"net/url"

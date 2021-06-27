@@ -1,8 +1,8 @@
 package geneticAlgorithm
 
 import (
-	"XSSfuzz/pkg/request"
-	"XSSfuzz/pkg/verification"
+	"github.com/Timofey21/GoXSSfuzz/pkg/request"
+	"github.com/Timofey21/GoXSSfuzz/pkg/verification"
 	"github.com/agnivade/levenshtein"
 	"io/ioutil"
 	"log"

@@ -1,7 +1,7 @@
 package verification
 
 import (
-	"XSSfuzz/pkg/print"
+	"github.com/Timofey21/GoXSSfuzz/pkg/print"
 	"context"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
