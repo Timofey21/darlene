@@ -23,7 +23,7 @@ func newXssAttack(id int, attack []string, fitFunction float64) XssAttack {
 
 
 func CSV() (xssAttacks []XssAttack) {
-	csvFile, err := os.Open("xssAttacks.csv")
+	csvFile, err := os.Open("payloads/xssAttacks.csv")
 
 	if err != nil {
 		panic(err)

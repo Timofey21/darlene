@@ -13,7 +13,7 @@ import (
 )
 
 const randomCircles = 20
-const epoch = 100
+const epoch = 30
 
 func crossover(xssAttacks []read.XssAttack) []read.XssAttack {
 

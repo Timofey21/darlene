@@ -9,6 +9,6 @@ var XssFound []string
 func PrintResult(){
 	unique.Strings(&XssFound)
 	for _, v := range XssFound {
-		fmt.Println("Working XSS [+]: ", v)
+		fmt.Println("Found XSS [+]: ", v)
 	}
 }

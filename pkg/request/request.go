@@ -11,9 +11,8 @@ func Request(urlStr string) (resp *http.Response, err error) {
 
 	var transport *http.Transport
 
-	if *read.Prox {
-		proxy := "http://127.0.0.1:8080"
-		proxyURL, err := url.Parse(proxy)
+	if *read.Prox != "no proxy" {
+		proxyURL, err := url.Parse(*read.Prox)
 		if err != nil {
 			log.Println(err)
 		}
@@ -22,7 +21,6 @@ func Request(urlStr string) (resp *http.Response, err error) {
 		}
 	} else {
 		transport = &http.Transport{
-
 		}
 	}
 
