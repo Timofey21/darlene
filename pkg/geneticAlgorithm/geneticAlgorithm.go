@@ -10,16 +10,44 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"strings"
+	"time"
 )
 
-const randomCircles = 20
-const epoch = 30
+const randomCirclesCrossOver = 30
+const randomCirclesMutation = 5
+const epoch = 100
 
+func LowerHighStr(str string) string {
+	var idx int
+
+	for i := 0; i < len(str); i++ {
+
+		rand.Seed(time.Now().UnixNano())
+		idx = rand.Intn(len(str))
+
+		str = str[:idx] + strings.ToLower(string(str[idx])) + str[idx + 1:]
+
+		rand.Seed(time.Now().UnixNano())
+		idx = rand.Intn(len(str))
+
+		str = str[:idx] + strings.ToUpper(string(str[idx])) + str[idx + 1:]
+	}
+
+	return str
+
+}
 func crossover(xssAttacks []read.XssAttack) []read.XssAttack {
 
-	for i := 0; i < randomCircles; i++ {
-		a1 := rand.Intn(len(xssAttacks))
-		a2 := rand.Intn(len(xssAttacks))
+	max:= len(xssAttacks)
+	for i := 0; i < randomCirclesCrossOver; i++ {
+		rand.Seed(time.Now().UnixNano())
+		a1 := rand.Intn(max)
+
+		rand.Seed(time.Now().UnixNano())
+		a2 := rand.Intn(max)
+
+		rand.Seed(time.Now().UnixNano())
 		module := rand.Intn(6)
 
 		buff := xssAttacks[a1].Attack[module]
@@ -31,13 +59,17 @@ func crossover(xssAttacks []read.XssAttack) []read.XssAttack {
 }
 
 func mutation(xssAttacks []read.XssAttack) []read.XssAttack {
-	for i := 0; i < randomCircles; i++ {
 
-		idx := rand.Intn(len(xssAttacks))
+	max:= len(xssAttacks)
+	min:= max / 2
+	for i := 0; i < randomCirclesMutation; i++ {
+		rand.Seed(time.Now().UnixNano())
+
+		idx := rand.Intn(max - min) + min
 		module := rand.Intn(6)
 
-		xssAttacks[idx].Attack[module] = xssAttacks[idx].Attack[module] + ""
-
+		//xssAttacks[idx].Attack[module] = LowerHighStr(xssAttacks[idx].Attack[module])
+		xssAttacks[idx].Attack[module] = xssAttacks[idx].Attack[module]
 	}
 
 	return xssAttacks
@@ -76,7 +108,13 @@ func GA(attackUrl string, xssAttacks []read.XssAttack) {
 				}
 				bodyString := string(bodyBytes)
 
-				xssAttacks[j].FitFunction = fitFunction(attackUrl, bodyString, xss)
+				var buff float64 = 0
+
+
+				buff = fitFunction(attackUrl, bodyString, xss)
+
+				xssAttacks[j].FitFunction = buff
+
 			}
 
 			err = resp.Body.Close()
@@ -97,8 +135,12 @@ func GA(attackUrl string, xssAttacks []read.XssAttack) {
 		xssAttacks = newPopulation
 
 		//avgFitFunction := sum(xssAttacks) / float64(len(xssAttacks))
+		//print.FitFunc = append(print.FitFunc, avgFitFunction)
+		//
 		//fmt.Println("Epoch: ", i, "FitFunction: ", avgFitFunction)
+
 	}
 
 	print.PrintResult()
+
 }

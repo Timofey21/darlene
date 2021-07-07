@@ -1,3 +1,5 @@
+github.com/Arafatk/glot v0.0.0-20180312013246-79d5219000f0 h1:buG0FAUZtOwl9c+RdnQo3cfZhTnY2OY24J3t+jpeb9Y=
+github.com/Arafatk/glot v0.0.0-20180312013246-79d5219000f0/go.mod h1:o0O8gFiTfVp4g5QcQJ1iMLw6ROiy9BITaiBbEiwz9h8=
 github.com/PuerkitoBio/goquery v1.7.0 h1:O5SP3b9JWqMSVMG69zMfj577zwkSNpxrFf7ybS74eiw=
 github.com/PuerkitoBio/goquery v1.7.0/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
 github.com/agnivade/levenshtein v1.1.1 h1:QY8M92nrzkmr798gCo3kmMyqXFzdQVpxLlGPRBij0P8=

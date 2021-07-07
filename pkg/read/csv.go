@@ -47,5 +47,5 @@ func CSV() (xssAttacks []XssAttack) {
 		xssAttacks = append(xssAttacks, newXssAttack(i, v, 0))
 	}
 
-	return
+	return xssAttacks
 }

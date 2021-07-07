@@ -3,6 +3,7 @@ module github.com/Timofey21/darlene
 go 1.16
 
 require (
+	github.com/Arafatk/glot v0.0.0-20180312013246-79d5219000f0 // indirect
 	github.com/PuerkitoBio/goquery v1.7.0
 	github.com/agnivade/levenshtein v1.1.1
 	github.com/chromedp/cdproto v0.0.0-20210625233425-810000e4a4fc
